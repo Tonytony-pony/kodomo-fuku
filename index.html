@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="こども服">
+<title>こども服候補リスト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --ground: #F4F5F8; --surface: #FFFFFF; --ink: #1D2230; --muted: #697083; --line: #E1E4EA;
+    --accent: #B8375C; --accent-ink: #FFFFFF; --chip: #EEF0F4; --chip-ink: #2A3040; --gone: #A9AEBA;
+    --warn-soft: #FFF4DB; --warn-ink: #7A5200;
+    --shadow: 0 1px 2px rgba(29,34,48,.06), 0 6px 18px rgba(29,34,48,.06);
+    --display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+    --body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14161B; --surface: #1D2027; --ink: #ECEDF2; --muted: #9CA2B1; --line: #2D313B;
+      --accent: #F0799B; --accent-ink: #1A0D12; --chip: #282C35; --chip-ink: #E2E4EA;
+      --gone: #5E6472; --warn-soft: #3A3020; --warn-ink: #F2CB7A; --shadow: 0 1px 2px rgba(0,0,0,.3);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 14px; line-height: 1.6; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 48px; display: grid; gap: 20px; }
+
+  header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 4vw, 30px); letter-spacing: .02em; margin: 0; text-wrap: balance; }
+  .stat { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .stat b { color: var(--ink); font-family: var(--display); font-size: 16px; }
+
+  .add { display: flex; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+  .add input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 15px; padding: 8px 10px; }
+  .add input:focus { outline: none; }
+  .add:focus-within { border-color: var(--accent); }
+
+  button, .btn { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 12px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+  button:hover, .btn:hover { border-color: var(--muted); }
+  button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; padding: 8px 18px; }
+  .primary:hover { border-color: var(--accent); filter: brightness(1.05); }
+  button:disabled { opacity: .5; cursor: default; }
+
+  .filters { display: grid; gap: 10px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .row .label { font-size: 12px; color: var(--muted); letter-spacing: .08em; margin-right: 4px; min-width: 3.5em; }
+  .chip { border: 1px solid transparent; background: var(--chip); color: var(--chip-ink); border-radius: 999px; padding: 3px 12px; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+  .row select { font: inherit; font-size: 13px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 3px 8px; margin-left: auto; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 16px 12px; }
+  @media (min-width: 720px) { .grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 24px 18px; } }
+
+  .card { background: var(--surface); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+  .ph { aspect-ratio: 4 / 5; max-width: 100%; background: var(--chip); display: grid; place-items: center; color: var(--muted); font-size: 12px; position: relative; }
+  .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ph .shop { position: absolute; left: 8px; top: 8px; background: var(--surface); color: var(--ink); font-size: 11px; font-weight: 700; letter-spacing: .04em; border-radius: 999px; padding: 1px 8px; opacity: .92; }
+  .body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .brand { font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .ttl { font-size: 13px; font-weight: 500; line-height: 1.45; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .price { font-family: var(--display); font-weight: 700; font-size: 20px; font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+  .price s { font-family: var(--body); font-weight: 400; font-size: 12px; color: var(--muted); }
+  .price .off { font-family: var(--body); font-size: 11px; font-weight: 700; color: var(--accent); }
+  .sizes { display: flex; flex-wrap: wrap; gap: 4px; }
+  .sz { font-size: 12px; font-variant-numeric: tabular-nums; border-radius: 4px; padding: 0 6px; background: var(--chip); color: var(--chip-ink); line-height: 20px; }
+  .sz.gone { background: transparent; color: var(--gone); text-decoration: line-through; }
+  .sz.hit { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .meta { font-size: 12px; color: var(--muted); }
+  .acts { display: flex; gap: 6px; margin-top: auto; padding-top: 6px; flex-wrap: wrap; }
+  .acts .btn, .acts button { font-size: 12px; padding: 4px 10px; }
+  .acts .del { margin-left: auto; color: var(--muted); }
+  .acts .del.arm { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .pending .ph { background: var(--warn-soft); color: var(--warn-ink); text-align: center; padding: 12px; }
+  .pending .ttl { word-break: break-all; }
+  .note { font-size: 12px; background: var(--warn-soft); color: var(--warn-ink); border-radius: 6px; padding: 6px 8px; line-height: 1.5; }
+  .busy { font-size: 13px; background: var(--warn-soft); color: var(--warn-ink); border-radius: 10px; padding: 8px 12px; }
+
+  .empty { text-align: center; color: var(--muted); padding: 48px 16px; }
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: 16px; }
+  footer button { font-size: 12px; padding: 2px 10px; color: var(--muted); }
+
+  dialog { border: 0; border-radius: 14px; padding: 0; width: min(520px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+  dialog::backdrop { background: rgba(20,22,27,.45); }
+  dialog form { padding: 20px; display: grid; gap: 12px; }
+  dialog h2 { font-family: var(--display); font-size: 18px; margin: 0; }
+  dialog p { margin: 0; font-size: 13px; color: var(--muted); }
+  dialog label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+  dialog input[type=text], dialog input[type=number], dialog input[type=url], dialog input[type=password] { font: inherit; font-size: 14px; color: var(--ink); background: var(--ground); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; }
+  dialog .check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink); }
+  dialog .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  dialog .foot { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+
+  .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--surface); border-radius: 999px; padding: 8px 18px; font-size: 13px; z-index: 10; max-width: calc(100vw - 32px); }
+  @media (prefers-reduced-motion: no-preference) { .card { transition: transform .15s ease; } .card:hover { transform: translateY(-2px); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>こども服 候補リスト</h1>
+    <div class="stat" id="stat">読み込み中…</div>
+  </header>
+
+  <form class="add" id="addForm" hidden>
+    <input id="urlInput" type="url" inputmode="url" placeholder="商品ページのURLを貼り付け" autocomplete="off" required>
+    <button class="primary" type="submit" id="addBtn">追加</button>
+  </form>
+  <div class="busy" id="busy" hidden></div>
+
+  <div class="filters" id="filters" hidden>
+    <div class="row" id="sizeRow"></div>
+    <div class="row" id="shopRow"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden></div>
+
+  <footer>
+    <span id="updated"></span>
+    <button type="button" id="adminBtn">編集モード</button>
+  </footer>
+</div>
+
+<dialog id="tokenDlg">
+  <form method="dialog" id="tokenForm">
+    <h2>編集モード</h2>
+    <p>GitHub のアクセストークンを入力すると、この端末で追加・編集・削除ができるようになります。トークンはこの端末のブラウザにだけ保存されます。</p>
+    <label>アクセストークン<input id="tokenInput" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+    <div class="foot">
+      <button type="button" id="logoutBtn" hidden>この端末から削除</button>
+      <button type="button" id="cancelToken">閉じる</button>
+      <button type="submit" class="primary">保存</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="editDlg">
+  <form method="dialog" id="editForm">
+    <h2>商品情報を編集</h2>
+    <label class="check"><input type="checkbox" id="fRescrape"> ショップのページからもう一度取得する</label>
+    <label>商品名<input id="fTitle" type="text"></label>
+    <div class="two">
+      <label>価格（円・税込）<input id="fPrice" type="number" inputmode="numeric" min="0"></label>
+      <label>ブランド<input id="fBrand" type="text"></label>
+    </div>
+    <label>購入できるサイズ<input id="fSizes" type="text" placeholder="100, 110, 120"></label>
+    <label>売り切れサイズ<input id="fSold" type="text" placeholder="130, 140"></label>
+    <label>画像のURL（商品画像を右クリック→「画像アドレスをコピー」）<input id="fImage" type="url" placeholder="https://…"></label>
+    <div class="foot">
+      <button type="button" id="cancelEdit">キャンセル</button>
+      <button type="submit" class="primary" id="saveEdit">保存</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+  const REPO = 'Tonytony-pony/kodomo-fuku';
+  const WORKFLOW = 'site.yml';
+  const SHOPS = { 'zozo.jp': 'ZOZOTOWN', 'devirockstore.net': 'devirock', 'nonnon.jp': 'moononnon' };
+  const $ = (id) => document.getElementById(id);
+  const yen = (n) => '¥' + Number(n).toLocaleString('ja-JP');
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} },
+  };
+
+  let items = [];
+  let token = store.get('ghToken');
+  let fSize = null, fShop = null;
+  let sortBy = store.get('sort') || 'new';
+  let editing = null;
+  let busyCount = 0;
+
+  function toast(msg) {
+    const t = $('toast'); t.textContent = msg; t.hidden = false;
+    clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, 3200);
+  }
+  const num = (s) => { const m = String(s).match(/\d+/); return m ? Number(m[0]) : 9999; };
+  const splitSizes = (s) => String(s || '').split(/[,、\s]+/).map(x => x.trim()).filter(Boolean);
+  function keyOf(u) { try { const x = new URL(u); return (x.hostname.replace(/^www\./, '') + x.pathname).replace(/\/$/, ''); } catch { return null; } }
+
+  function el(tag, attrs = {}, ...kids) {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === 'class') e.className = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v === true ? '' : v);
+    }
+    for (const k of kids.flat()) if (k != null && k !== false) e.append(k instanceof Node ? k : document.createTextNode(k));
+    return e;
+  }
+
+  // ---- 表示 ----
+  function renderFilters() {
+    const sizes = [...new Set(items.flatMap(i => i.sizes || []))].sort((a, b) => num(a) - num(b));
+    const shops = [...new Set(items.map(i => i.shop).filter(Boolean))];
+    if (fSize && !sizes.includes(fSize)) fSize = null;
+    if (fShop && !shops.includes(fShop)) fShop = null;
+    const mk = (row, list, cur, set, label) => {
+      row.replaceChildren(el('span', { class: 'label' }, label),
+        el('button', { class: 'chip', type: 'button', 'aria-pressed': String(cur == null), onclick: () => { set(null); render(); } }, 'すべて'),
+        ...list.map(v => el('button', { class: 'chip', type: 'button', 'aria-pressed': String(cur === v), onclick: () => { set(cur === v ? null : v); render(); } }, v)));
+    };
+    mk($('sizeRow'), sizes, fSize, v => fSize = v, 'サイズ');
+    mk($('shopRow'), shops, fShop, v => fShop = v, 'ショップ');
+    $('shopRow').append(el('select', { id: 'sortSel', 'aria-label': '並び順', onchange: (e) => { sortBy = e.target.value; store.set('sort', sortBy); render(); } },
+      el('option', { value: 'new', selected: sortBy === 'new' }, '新しい順'),
+      el('option', { value: 'cheap', selected: sortBy === 'cheap' }, '安い順'),
+      el('option', { value: 'high', selected: sortBy === 'high' }, '高い順')));
+    $('filters').hidden = items.length === 0;
+  }
+
+  function card(it) {
+    const pending = it.status === 'pending';
+    const ph = el('div', { class: 'ph' },
+      it.image ? el('img', { src: it.image, alt: it.title || '', loading: 'lazy' }) : (pending ? '情報を取得できませんでした' : '画像なし'),
+      el('span', { class: 'shop' }, it.shop || ''));
+    const body = el('div', { class: 'body' });
+    if (it.brand) body.append(el('div', { class: 'brand' }, it.brand));
+    body.append(el('p', { class: 'ttl', title: it.title || it.url }, it.title || it.url));
+    if (it.price) {
+      const p = el('div', { class: 'price' }, yen(it.price));
+      if (it.listPrice && it.listPrice > it.price) p.append(el('s', {}, yen(it.listPrice)), el('span', { class: 'off' }, Math.round((1 - it.price / it.listPrice) * 100) + '%OFF'));
+      body.append(p);
+    }
+    const sizes = [...(it.sizes || []).map(s => [s, true]), ...(it.soldout || []).map(s => [s, false])].sort((a, b) => num(a[0]) - num(b[0]));
+    if (sizes.length) body.append(el('div', { class: 'sizes', 'aria-label': '購入できるサイズ' },
+      sizes.map(([s, ok]) => el('span', { class: 'sz' + (ok ? (s === fSize ? ' hit' : '') : ' gone'), title: ok ? '在庫あり' : '売り切れ' }, s))));
+    if (it.colors && it.colors.length) body.append(el('div', { class: 'meta', title: it.colors.join(' / ') }, '在庫のある色 ' + it.colors.length + '色'));
+    if (pending && token) body.append(el('div', { class: 'note' }, '自動で取得できませんでした。「編集」から入力してください。'));
+    const acts = el('div', { class: 'acts' }, el('a', { class: 'btn', href: it.url, target: '_blank', rel: 'noopener noreferrer' }, '商品ページ ↗'));
+    if (token) {
+      acts.append(el('button', { type: 'button', onclick: () => openEdit(it) }, '編集'));
+      const del = el('button', { type: 'button', class: 'del' }, '削除');
+      del.addEventListener('click', () => {
+        if (!del.classList.contains('arm')) {
+          del.classList.add('arm'); del.textContent = '本当に削除';
+          setTimeout(() => { del.classList.remove('arm'); del.textContent = '削除'; }, 3000);
+          return;
+        }
+        del.disabled = true;
+        dispatch({ action: 'delete', id: it.id }, '削除しました。1〜2分で反映されます');
+      });
+      acts.append(del);
+    }
+    body.append(acts);
+    return el('article', { class: 'card' + (pending ? ' pending' : '') }, ph, body);
+  }
+
+  function render() {
+    renderFilters();
+    const list = items.filter(i => (!fSize || (i.sizes || []).includes(fSize)) && (!fShop || i.shop === fShop));
+    const pr = (i) => i.price || (sortBy === 'cheap' ? 1e9 : -1);
+    if (sortBy === 'cheap') list.sort((a, b) => pr(a) - pr(b));
+    else if (sortBy === 'high') list.sort((a, b) => pr(b) - pr(a));
+    else list.sort((a, b) => String(b.addedAt || '').localeCompare(String(a.addedAt || '')));
+    $('grid').replaceChildren(...list.map(card));
+    const priced = list.filter(i => i.price).map(i => i.price);
+    $('stat').replaceChildren(el('b', {}, String(list.length)), ' 点',
+      priced.length ? ` · ${yen(Math.min(...priced))}〜${yen(Math.max(...priced))}` : '',
+      fSize ? ` · ${fSize}サイズあり` : '');
+    const e = $('empty');
+    e.hidden = list.length > 0;
+    e.textContent = items.length ? 'この条件に合う服はありません。' : 'まだ何もありません。';
+    const checked = items.map(i => i.checkedAt).filter(Boolean).sort().pop();
+    $('updated').textContent = checked ? '在庫・価格の確認: ' + new Date(checked).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+    $('addForm').hidden = !token;
+    $('adminBtn').textContent = token ? '編集モード（オン）' : '編集モード';
+  }
+
+  let lastRaw = '';
+  async function load() {
+    try {
+      const r = await fetch('items.json?t=' + Date.now(), { cache: 'no-store' });
+      const raw = await r.text();
+      if (raw !== lastRaw) { lastRaw = raw; items = JSON.parse(raw); render(); return true; }
+    } catch (e) {
+      if (!items.length) $('stat').textContent = '読み込めませんでした。再読み込みしてください。';
+    }
+    return false;
+  }
+
+  // ---- 編集（GitHub Actions を起動） ----
+  async function gh(path, opts = {}) {
+    const r = await fetch('https://api.github.com/repos/' + REPO + path, {
+      ...opts,
+      headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token, 'X-GitHub-Api-Version': '2022-11-28', ...(opts.headers || {}) },
+    });
+    if (!r.ok) { const err = new Error(String(r.status)); err.status = r.status; throw err; }
+    return r.status === 204 ? null : r.json();
+  }
+
+  function setBusy(delta) {
+    busyCount = Math.max(0, busyCount + delta);
+    $('busy').hidden = busyCount === 0;
+    $('busy').textContent = `反映待ち ${busyCount} 件 — ショップから情報を取得して、1〜3分で表示されます。`;
+  }
+
+  async function dispatch(inputs, doneMsg) {
+    const started = new Date(Date.now() - 5000).toISOString();
+    try {
+      await gh(`/actions/workflows/${WORKFLOW}/dispatches`, { method: 'POST', body: JSON.stringify({ ref: 'main', inputs }) });
+    } catch (e) {
+      toast(e.status === 401 || e.status === 403 || e.status === 404 ? 'トークンが無効か権限が足りません。編集モードから入れ直してください' : '送信できませんでした（' + e.message + '）');
+      render();
+      return;
+    }
+    toast(doneMsg);
+    setBusy(+1);
+    watchRun(started);
+  }
+
+  async function watchRun(since) {
+    const deadline = Date.now() + 8 * 60 * 1000;
+    let runId = null;
+    while (Date.now() < deadline) {
+      await new Promise(r => setTimeout(r, 10000));
+      try {
+        if (!runId) {
+          const res = await gh(`/actions/workflows/${WORKFLOW}/runs?event=workflow_dispatch&per_page=5&created=>=${since}`);
+          runId = res.workflow_runs[res.workflow_runs.length - 1]?.id || null;
+          continue;
+        }
+        const run = await gh(`/actions/runs/${runId}`);
+        if (run.status === 'completed') {
+          setBusy(-1);
+          if (run.conclusion === 'success') { await load(); toast('反映しました'); }
+          else toast('処理に失敗しました。GitHub の Actions 画面で確認できます');
+          return;
+        }
+      } catch (e) { /* 一時的な失敗は次の周回で再確認 */ }
+    }
+    setBusy(-1);
+    load();
+  }
+
+  $('addForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const url = $('urlInput').value.trim();
+    const key = keyOf(url);
+    if (!key || !/^https?:/.test(url)) { toast('URLの形式が正しくありません'); return; }
+    if (items.some(i => i.key === key)) { toast('この商品はもう入っています'); return; }
+    $('urlInput').value = '';
+    dispatch({ action: 'add', url }, '追加を受け付けました');
+  });
+
+  function openEdit(it) {
+    editing = it;
+    $('fRescrape').checked = false;
+    $('fTitle').value = it.title || '';
+    $('fPrice').value = it.price || '';
+    $('fBrand').value = it.brand || '';
+    $('fSizes').value = (it.sizes || []).join(', ');
+    $('fSold').value = (it.soldout || []).join(', ');
+    $('fImage').value = '';
+    $('editDlg').showModal();
+  }
+  $('cancelEdit').addEventListener('click', () => $('editDlg').close());
+  $('editForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const it = editing; if (!it) return;
+    const patch = { title: $('fTitle').value.trim(), brand: $('fBrand').value.trim(), price: Number($('fPrice').value) || null, sizes: splitSizes($('fSizes').value), soldout: splitSizes($('fSold').value) };
+    if ($('fImage').value.trim()) patch.sourceImage = $('fImage').value.trim();
+    if ($('fRescrape').checked) patch.rescrape = true;
+    $('editDlg').close();
+    dispatch({ action: 'edit', id: it.id, patch: JSON.stringify(patch) }, '保存しました。1〜2分で反映されます');
+  });
+
+  // ---- トークン ----
+  $('adminBtn').addEventListener('click', () => { $('tokenInput').value = ''; $('logoutBtn').hidden = !token; $('tokenDlg').showModal(); });
+  $('cancelToken').addEventListener('click', () => $('tokenDlg').close());
+  $('logoutBtn').addEventListener('click', () => { token = null; store.set('ghToken', null); $('tokenDlg').close(); render(); toast('この端末の編集モードをオフにしました'); });
+  $('tokenForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const t = $('tokenInput').value.trim();
+    if (!t) return;
+    token = t;
+    try {
+      await gh('/actions/workflows/' + WORKFLOW);
+      store.set('ghToken', t);
+      $('tokenDlg').close();
+      toast('編集モードをオンにしました');
+      render();
+    } catch (err) {
+      token = store.get('ghToken');
+      toast('このトークンでは使えません（' + err.message + '）');
+    }
+  });
+
+  load();
+  setInterval(() => { if (!document.hidden) load(); }, 60000);
+})();
+</script>
+</body>
+</html>

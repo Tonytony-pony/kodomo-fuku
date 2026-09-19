@@ -1,0 +1,78 @@
+name: site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "add / delete / edit / refresh"
+        required: true
+        default: refresh
+      url:
+        description: "add: 商品URL"
+        required: false
+      id:
+        description: "delete / edit: 対象ID"
+        required: false
+      patch:
+        description: "edit: JSON"
+        required: false
+  schedule:
+    - cron: "0 21 * * *" # 毎朝6時(JST)に在庫・価格を更新
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: github.event_name != 'push'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install scraper
+        if: github.event_name != 'push'
+        run: |
+          pip install requests playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Update items
+        if: github.event_name != 'push'
+        env:
+          ACTION: ${{ github.event_name == 'schedule' && 'refresh' || inputs.action }}
+          URL: ${{ inputs.url }}
+          ID: ${{ inputs.id }}
+          PATCH: ${{ inputs.patch }}
+        run: python scripts/update.py
+
+      - name: Commit
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A items.json img
+          if git diff --cached --quiet; then echo "no changes"; else git commit -m "update: ${ACTION_NAME}" && git push; fi
+        env:
+          ACTION_NAME: ${{ github.event_name == 'schedule' && 'refresh' || inputs.action }}
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4
