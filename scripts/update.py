@@ -149,7 +149,7 @@ def fetch_browser(url):
         b = p.chromium.launch()
         pg = b.new_page(user_agent=UA, locale="ja-JP", viewport={"width": 1280, "height": 900})
         try:
-            pg.goto(url, wait_until="domcontentloaded", timeout=60000)
+            pg.goto(url, wait_until="domcontentloaded", timeout=25000)
             pg.wait_for_timeout(4000)
             d = pg.evaluate(BROWSER_JS)
         finally:
