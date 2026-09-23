@@ -31,7 +31,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/223/000000022398/000000022398-01.jpg?size=l&w=ODAw&t=20260217172534",
   "status": "ok",
   "addedAt": "2026-09-20T12:00:00+09:00",
-  "checkedAt": "2026-09-23T08:25:42+09:00"
+  "checkedAt": "2026-09-24T08:24:02+09:00"
  },
  {
   "id": "devirock-182gdr002",
@@ -64,7 +64,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/216/000000021677/000000021677-01.jpg?size=l&w=ODAw&t=20260420102030",
   "status": "ok",
   "addedAt": "2026-09-20T12:01:00+09:00",
-  "checkedAt": "2026-09-23T08:25:43+09:00"
+  "checkedAt": "2026-09-24T08:24:03+09:00"
  },
  {
   "id": "devirock-1gdr19341",
@@ -94,7 +94,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/225/000000022513/000000022513-01.jpg?size=l&w=ODAw&t=20260330183023",
   "status": "ok",
   "addedAt": "2026-09-20T12:02:00+09:00",
-  "checkedAt": "2026-09-23T08:25:44+09:00"
+  "checkedAt": "2026-09-24T08:24:04+09:00"
  },
  {
   "id": "devirock-1gdr19231",
@@ -123,7 +123,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/222/000000022295/000000022295-01.jpg?size=l&w=ODAw&t=20251216103745",
   "status": "ok",
   "addedAt": "2026-09-20T12:03:00+09:00",
-  "checkedAt": "2026-09-23T08:25:45+09:00"
+  "checkedAt": "2026-09-24T08:24:05+09:00"
  },
  {
   "id": "devirock-1gdr19214",
@@ -154,7 +154,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/222/000000022293/000000022293-01.jpg?size=l&w=ODAw&t=20251216103547",
   "status": "ok",
   "addedAt": "2026-09-20T12:04:00+09:00",
-  "checkedAt": "2026-09-23T08:25:46+09:00"
+  "checkedAt": "2026-09-24T08:24:06+09:00"
  },
  {
   "id": "devirock-1gdr19111",
@@ -177,15 +177,13 @@
    "160"
   ],
   "colors": [
-   "003-ロゴ2-ブラック",
-   "004-ロゴ2-Gパープル",
-   "005-ロゴ3-ダスティピンク"
+   "003-ロゴ2-ブラック"
   ],
   "image": "img/devirock-1gdr19111.jpg",
   "sourceImage": "https://devirockstore.itembox.cloud/product/220/000000022034/000000022034-01.jpg?size=l&w=ODAw&t=20250822100549",
   "status": "ok",
   "addedAt": "2026-09-20T12:05:00+09:00",
-  "checkedAt": "2026-09-23T08:25:46+09:00"
+  "checkedAt": "2026-09-24T08:24:07+09:00"
  },
  {
   "id": "moononnon-5526371",
@@ -215,7 +213,7 @@
   "sourceImage": "https://moononnon.itembox.cloud/product/030/000000003045/000000003045-01.jpg?size=l&w=ODAw&t=20250213164611",
   "status": "ok",
   "addedAt": "2026-09-20T12:06:00+09:00",
-  "checkedAt": "2026-09-23T08:25:48+09:00"
+  "checkedAt": "2026-09-24T08:24:09+09:00"
  },
  {
   "id": "moononnon-5436321",
@@ -226,24 +224,21 @@
   "title": "【TIME SALE】チェック 裏地つき ドッキングワンピース",
   "price": 2750,
   "listPrice": null,
-  "sizes": [
-   "120",
-   "140"
-  ],
+  "sizes": [],
   "soldout": [
    "100",
    "110",
+   "120",
    "130",
+   "140",
    "150"
   ],
-  "colors": [
-   "グリーン(08)"
-  ],
+  "colors": [],
   "image": "img/moononnon-5436321.jpg",
   "sourceImage": "https://moononnon.itembox.cloud/product/028/000000002824/000000002824-01.jpg?size=l&w=ODAw&t=20260818154353",
   "status": "ok",
   "addedAt": "2026-09-20T12:07:00+09:00",
-  "checkedAt": "2026-09-23T08:25:48+09:00"
+  "checkedAt": "2026-09-24T08:24:10+09:00"
  },
  {
   "id": "moononnon-5126511",
@@ -272,7 +267,7 @@
   "sourceImage": "https://moononnon.itembox.cloud/product/019/000000001917/000000001917-01.jpg?size=l&w=ODAw&t=20220422142517",
   "status": "ok",
   "addedAt": "2026-09-20T12:08:00+09:00",
-  "checkedAt": "2026-09-23T08:25:49+09:00"
+  "checkedAt": "2026-09-24T08:24:11+09:00"
  },
  {
   "id": "zozo-110193030",
