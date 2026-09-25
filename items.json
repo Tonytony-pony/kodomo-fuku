@@ -13,10 +13,10 @@
    "110",
    "120",
    "130",
-   "140"
+   "140",
+   "150"
   ],
   "soldout": [
-   "150",
    "160"
   ],
   "colors": [
@@ -31,7 +31,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/223/000000022398/000000022398-01.jpg?size=l&w=ODAw&t=20260217172534",
   "status": "ok",
   "addedAt": "2026-09-20T12:00:00+09:00",
-  "checkedAt": "2026-09-25T08:43:26+09:00"
+  "checkedAt": "2026-09-26T08:45:18+09:00"
  },
  {
   "id": "devirock-182gdr002",
@@ -64,7 +64,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/216/000000021677/000000021677-01.jpg?size=l&w=ODAw&t=20260420102030",
   "status": "ok",
   "addedAt": "2026-09-20T12:01:00+09:00",
-  "checkedAt": "2026-09-25T08:43:28+09:00"
+  "checkedAt": "2026-09-26T08:45:20+09:00"
  },
  {
   "id": "devirock-1gdr19341",
@@ -94,7 +94,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/225/000000022513/000000022513-01.jpg?size=l&w=ODAw&t=20260330183023",
   "status": "ok",
   "addedAt": "2026-09-20T12:02:00+09:00",
-  "checkedAt": "2026-09-25T08:43:29+09:00"
+  "checkedAt": "2026-09-26T08:45:21+09:00"
  },
  {
   "id": "devirock-1gdr19231",
@@ -123,7 +123,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/222/000000022295/000000022295-01.jpg?size=l&w=ODAw&t=20251216103745",
   "status": "ok",
   "addedAt": "2026-09-20T12:03:00+09:00",
-  "checkedAt": "2026-09-25T08:43:31+09:00"
+  "checkedAt": "2026-09-26T08:45:22+09:00"
  },
  {
   "id": "devirock-1gdr19214",
@@ -154,7 +154,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/222/000000022293/000000022293-01.jpg?size=l&w=ODAw&t=20251216103547",
   "status": "ok",
   "addedAt": "2026-09-20T12:04:00+09:00",
-  "checkedAt": "2026-09-25T08:43:32+09:00"
+  "checkedAt": "2026-09-26T08:45:23+09:00"
  },
  {
   "id": "devirock-1gdr19111",
@@ -183,7 +183,7 @@
   "sourceImage": "https://devirockstore.itembox.cloud/product/220/000000022034/000000022034-01.jpg?size=l&w=ODAw&t=20250822100549",
   "status": "ok",
   "addedAt": "2026-09-20T12:05:00+09:00",
-  "checkedAt": "2026-09-25T08:43:33+09:00"
+  "checkedAt": "2026-09-26T08:45:25+09:00"
  },
  {
   "id": "moononnon-5526371",
@@ -213,7 +213,7 @@
   "sourceImage": "https://moononnon.itembox.cloud/product/030/000000003045/000000003045-01.jpg?size=l&w=ODAw&t=20250213164611",
   "status": "ok",
   "addedAt": "2026-09-20T12:06:00+09:00",
-  "checkedAt": "2026-09-25T08:43:35+09:00"
+  "checkedAt": "2026-09-26T08:45:26+09:00"
  },
  {
   "id": "moononnon-5436321",
@@ -241,7 +241,7 @@
   "sourceImage": "https://moononnon.itembox.cloud/product/028/000000002824/000000002824-01.jpg?size=l&w=ODAw&t=20260818154353",
   "status": "ok",
   "addedAt": "2026-09-20T12:07:00+09:00",
-  "checkedAt": "2026-09-25T08:43:36+09:00"
+  "checkedAt": "2026-09-26T08:45:27+09:00"
  },
  {
   "id": "moononnon-5126511",
@@ -270,7 +270,7 @@
   "sourceImage": "https://moononnon.itembox.cloud/product/019/000000001917/000000001917-01.jpg?size=l&w=ODAw&t=20220422142517",
   "status": "ok",
   "addedAt": "2026-09-20T12:08:00+09:00",
-  "checkedAt": "2026-09-25T08:43:38+09:00"
+  "checkedAt": "2026-09-26T08:45:29+09:00"
  },
  {
   "id": "zozo-110193030",
